@@ -22,7 +22,7 @@
 			die();
 		} else {
 			$tpl = new TemplatePower('template/error.html');
-			$tpl->assignGlobal('error_message', 'Invalid username / password.' . $user);
+			$tpl->assignGlobal('error_message', 'Invalid username / password: ' . htmlspecialchars($user));
 		}
 
 	// display the default login form

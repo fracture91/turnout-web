@@ -37,3 +37,5 @@ comes after the login page.
 9.  Used mysql_real_escape_string to escape login inputs in auth.inc.php.  This
 prevents against SQLi attacks on those inputs.
 
+10.  Sanitized username in login.php with htmlspecialchars to prevent XSS.
+
