@@ -50,11 +50,12 @@
 					// check to see if a file has been uploaded
 					if (isset($_FILES['file'])) {
 						$filename = $_FILES['file']['name'];
-						if(!in_array(pathinfo($filename, PATHINFO_EXTENSION), $allowedExts)) {
+						$ext = pathinfo($filename, PATHINFO_EXTENSION);
+						if(!in_array($ext, $allowedExts)) {
 							die('File extension not allowed');
 						}
 
-						$target_file =  $path .	$assignment . '-' . $filename;
+						$target_file =  $path . $assignment . '.' . $ext;
 
 						// save the file to the uploads directory
 						if(move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
