@@ -1,6 +1,8 @@
 <?php
 	require_once 'config.inc.php';
 
+	$allowedRedirects = array('students.php', 'staff.php');
+
 	$tpl_main = new TemplatePower('template/master.html');
 	$tpl_main->prepare();
 	
@@ -11,7 +13,12 @@
 		$goto = $_POST['redirect'];
 		
 		if($_AUTH->login($user, $pass)) {
-			include_once($goto);
+		   	if(in_array($goto, $allowedRedirects)) {
+				include_once($goto);
+			}
+			else {
+				die("Bad redirect");
+			}
 			die();
 		} else {
 			$tpl = new TemplatePower('template/error.html');
