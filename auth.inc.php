@@ -9,7 +9,9 @@
 		}
 		
 		public function login($user, $pass) {
-			
+			$user = mysql_real_escape_string($user);
+			$pass = mysql_real_escape_string($pass);
+						
 			if(isset($_SESSION['userid'])) {
 				return true;
 			}
