@@ -32,7 +32,8 @@ is no longer possible.
 
 8.  Changed login.php so that it's only allowed to redirect to the student or
 staff pages (see "allowedRedirects").  Makes it harder/impossible to spoof what
-comes after the login page.
+comes after the login page.  This also prevents the XSS through the redirect
+input.
 
 9.  Used mysql_real_escape_string to escape login inputs in auth.inc.php.  This
 prevents against SQLi attacks on those inputs.

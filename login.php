@@ -26,7 +26,10 @@
 		}
 
 	// display the default login form
-	} else {		
+	} else {
+		if(!in_array($_GET['redirect'], $allowedRedirects)) {
+			die("Bad redirect");
+		}
 		$tpl = new TemplatePower('template/login.html');
 		$tpl->assignGlobal('redirect', $_GET['redirect']);
 	}
