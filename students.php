@@ -1,5 +1,8 @@
 <?php
 	require_once 'config.inc.php';
+	
+	$allowedExts = array('jpg','JPG','jpeg','JPEG','png','PNG','gif','GIF',
+			'doc','docx', 'txt');
 		
 	$tpl_main = new TemplatePower('template/master.html');
 	$tpl_main->prepare();
@@ -46,7 +49,12 @@
 					
 					// check to see if a file has been uploaded
 					if (isset($_FILES['file'])) {
-						$target_file =  $path . $assignment . '-' . $_FILES['file']['name'];
+						$filename = $_FILES['file']['name'];
+						if(!in_array(pathinfo($filename, PATHINFO_EXTENSION), $allowedExts)) {
+							die('File extension not allowed');
+						}
+
+						$target_file =  $path .	$assignment . '-' . $filename;
 
 						// save the file to the uploads directory
 						if(move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
