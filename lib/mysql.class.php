@@ -179,7 +179,7 @@ class mysql{
 			if(is_array($sql)){
 				for($i = 0; $i < count($sql);$i++){
 					if(!self::sql_query($sql[$i])){
-						die("Could not run sql query array.<br/>".$sql[$i]);
+						die("Could not run sql query array.");
 					}
 				}
 				return;
@@ -188,7 +188,7 @@ class mysql{
 			self::$num++;
 			self::$result = mysql_query($sql);
 			if(!self::$result){
-			 	die("Could not run sql query.<br/>".$sql);
+			 	die("Could not run sql query.");
 			}
 			return self::$result;
 		}else{
