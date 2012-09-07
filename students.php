@@ -54,8 +54,18 @@
 						if(!in_array($ext, $allowedExts)) {
 							die('File extension not allowed');
 						}
+						$prefix = $assignment . '.';
+						$target_file =  $path . $prefix . $ext;
 
-						$target_file =  $path . $assignment . '.' . $ext;
+						//delete existing files to prevent DoS
+						$files = scandir($path);
+						if(is_array($files)) {
+							foreach($files as $f) {
+								if(substr($f, 0, strlen($prefix)) == $prefix) {
+									unlink($path . $f);
+								}
+							}
+						}
 
 						// save the file to the uploads directory
 						if(move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
