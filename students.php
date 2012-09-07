@@ -36,6 +36,11 @@
 					$user = $_SESSION['userID'];
 					$path = $_CONF['upload_path'];
 					
+					if(!is_assignment_valid($_DB, $assignment)) {
+						//not the most user-friendly thing in the world, but this isn't an HCI class
+						die('Invalid assignment string');
+					}
+
 					$tpl->assignInclude('upload', 'template/upload.html');
 					$tpl->assignGlobal('assignment', $assignment);
 					
@@ -183,5 +188,33 @@
 		}
 		
 		$tpl->gotoBlock( "_ROOT" );
+	}
+
+	/*
+	Make sure the assignment string is valid - assignment should belong to
+	a course the user is in, and the user ID should match the one from
+	_SESSION.
+	*/
+	function is_assignment_valid($db, $assignment) {
+		$uid = $_SESSION['userID'];
+		if(preg_match('/(\\d+)\\-(\\d+)/', $assignment, $matches)) {
+			if($matches[2] != $uid) {
+				return false;
+			}
+			$db->sql_query("SELECT * FROM assignments WHERE assignmentID = $matches[1];");
+			// make sure the target assignment is in a course the user belongs to
+			$assn = $db->sql_fetchrowset();
+			if(count($assn) < 1) {
+				return false;
+			}
+			foreach(get_user_courses($db) as $course) {
+				if($assn[0]['assignmentCourse'] == $course['courseID']) {
+					return true;
+				}
+			}
+			return false;
+		} else {
+			return false;
+		}
 	}
 ?>
