@@ -1,6 +1,6 @@
 lib/TemplatePower.class.php
 phpMyAdmin
 template
-uploads
+uploads/*
 *.swp
 
